@@ -1,0 +1,612 @@
+{
+  "schemaVersion": 1,
+  "mappings": [
+    {
+      "screen": "plans",
+      "component": "ScreenShell",
+      "tokenRefs": [
+        "semantic/bg/surface",
+        "semantic/text/primary",
+        "spacing/spacing/390",
+        "spacing/spacing/16",
+        "spacing/spacing/24"
+      ]
+    },
+    {
+      "screen": "plans",
+      "component": "Header",
+      "tokenRefs": [
+        "semantic/bg/surface",
+        "semantic/text/primary",
+        "semantic/icon/strong",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/16",
+        "spacing/spacing/24",
+        "spacing/spacing/32",
+        "spacing/spacing/40",
+        "textStyles/subtitle/bold"
+      ]
+    },
+    {
+      "screen": "detail",
+      "component": "ScreenShell",
+      "tokenRefs": [
+        "semantic/bg/surface",
+        "semantic/text/primary",
+        "spacing/spacing/390",
+        "spacing/spacing/16",
+        "spacing/spacing/24"
+      ]
+    },
+    {
+      "screen": "detail",
+      "component": "Header",
+      "tokenRefs": [
+        "semantic/bg/surface",
+        "semantic/text/primary",
+        "semantic/icon/strong",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/16",
+        "spacing/spacing/24",
+        "spacing/spacing/32",
+        "spacing/spacing/40",
+        "textStyles/subtitle/default"
+      ]
+    },
+    {
+      "screen": "apply",
+      "component": "ScreenShell",
+      "tokenRefs": [
+        "semantic/bg/surface",
+        "semantic/text/primary",
+        "spacing/spacing/390",
+        "spacing/spacing/16",
+        "spacing/spacing/24"
+      ]
+    },
+    {
+      "screen": "apply",
+      "component": "Header",
+      "tokenRefs": [
+        "semantic/bg/surface",
+        "semantic/text/primary",
+        "semantic/icon/strong",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/16",
+        "spacing/spacing/24",
+        "spacing/spacing/32",
+        "spacing/spacing/40",
+        "textStyles/subtitle/default"
+      ]
+    },
+    {
+      "screen": "complete",
+      "component": "ScreenShell",
+      "tokenRefs": [
+        "semantic/bg/surface",
+        "semantic/text/primary",
+        "spacing/spacing/390",
+        "spacing/spacing/16",
+        "spacing/spacing/24"
+      ]
+    },
+    {
+      "screen": "complete",
+      "component": "Header",
+      "tokenRefs": [
+        "semantic/bg/surface",
+        "semantic/text/primary",
+        "semantic/icon/strong",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/16",
+        "spacing/spacing/24",
+        "spacing/spacing/32",
+        "spacing/spacing/40",
+        "textStyles/subtitle/default"
+      ]
+    },
+    {
+      "screen": "plans",
+      "component": "TitleGroup",
+      "tokenRefs": [
+        "textStyles/heading/h3",
+        "textStyles/body/small-medium",
+        "semantic/text/primary",
+        "semantic/text/secondary",
+        "spacing/spacing/8"
+      ]
+    },
+    {
+      "screen": "plans",
+      "component": "FilterChip",
+      "tokenRefs": [
+        "textStyles/body/small-medium",
+        "semantic/text/primary",
+        "semantic/text/on-dark",
+        "semantic/bg/surface",
+        "semantic/fill/secondary",
+        "semantic/border/default",
+        "semantic/border/focus",
+        "spacing/spacing/4",
+        "spacing/spacing/8",
+        "spacing/spacing/16",
+        "spacing/spacing/40",
+        "radius/radius/full"
+      ]
+    },
+    {
+      "screen": "plans",
+      "component": "PlanList",
+      "tokenRefs": [
+        "textStyles/caption/medium",
+        "semantic/text/tertiary",
+        "spacing/spacing/12"
+      ]
+    },
+    {
+      "screen": "plans",
+      "component": "PlanCard",
+      "tokenRefs": [
+        "textStyles/subtitle/bold",
+        "textStyles/body/small-medium",
+        "textStyles/caption/medium",
+        "semantic/surface/default",
+        "semantic/text/primary",
+        "semantic/text/secondary",
+        "semantic/text/tertiary",
+        "semantic/text/accent",
+        "semantic/border/default",
+        "spacing/spacing/4",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/20",
+        "radius/radius/16"
+      ]
+    },
+    {
+      "screen": "plans",
+      "component": "Tag",
+      "tokenRefs": [
+        "textStyles/caption/bold",
+        "semantic/text/secondary",
+        "semantic/bg/subtle",
+        "spacing/spacing/12",
+        "radius/radius/full"
+      ]
+    },
+    {
+      "screen": "detail",
+      "component": "Tag",
+      "tokenRefs": [
+        "textStyles/caption/bold",
+        "semantic/text/secondary",
+        "semantic/bg/subtle",
+        "spacing/spacing/12",
+        "radius/radius/full"
+      ]
+    },
+    {
+      "screen": "plans",
+      "component": "PromoChip",
+      "tokenRefs": [
+        "textStyles/caption/bold",
+        "semantic/text/accent",
+        "semantic/bg/accent-subtle",
+        "spacing/spacing/10",
+        "spacing/spacing/24",
+        "radius/radius/8"
+      ]
+    },
+    {
+      "screen": "plans",
+      "component": "DetailButton",
+      "tokenRefs": [
+        "textStyles/body/strong",
+        "semantic/text/primary",
+        "semantic/bg/surface",
+        "semantic/border/default",
+        "semantic/border/focus",
+        "spacing/spacing/24",
+        "spacing/spacing/40",
+        "radius/radius/8"
+      ]
+    },
+    {
+      "screen": "detail",
+      "component": "DetailTitle",
+      "tokenRefs": [
+        "textStyles/heading/h2",
+        "textStyles/body/small-medium",
+        "semantic/text/primary",
+        "semantic/text/secondary",
+        "spacing/spacing/8",
+        "spacing/spacing/24"
+      ]
+    },
+    {
+      "screen": "detail",
+      "component": "PriceCard",
+      "tokenRefs": [
+        "textStyles/heading/h2",
+        "textStyles/subtitle/bold",
+        "textStyles/caption/medium",
+        "semantic/bg/default",
+        "semantic/text/primary",
+        "semantic/text/accent",
+        "semantic/text/tertiary",
+        "spacing/spacing/4",
+        "spacing/spacing/20",
+        "spacing/spacing/24",
+        "radius/radius/12"
+      ]
+    },
+    {
+      "screen": "detail",
+      "component": "ListRow",
+      "tokenRefs": [
+        "textStyles/body/small-medium",
+        "textStyles/body/small-strong",
+        "semantic/text/primary",
+        "semantic/text/secondary",
+        "semantic/text/accent",
+        "semantic/border/subtle",
+        "spacing/spacing/4",
+        "spacing/spacing/8",
+        "spacing/spacing/12"
+      ]
+    },
+    {
+      "screen": "apply",
+      "component": "ListRow",
+      "tokenRefs": [
+        "textStyles/body/small-medium",
+        "textStyles/body/small-strong",
+        "semantic/text/primary",
+        "semantic/text/secondary",
+        "semantic/text/accent",
+        "semantic/border/subtle",
+        "spacing/spacing/4",
+        "spacing/spacing/8",
+        "spacing/spacing/12"
+      ]
+    },
+    {
+      "screen": "complete",
+      "component": "ListRow",
+      "tokenRefs": [
+        "textStyles/body/small-medium",
+        "textStyles/body/small-strong",
+        "semantic/text/primary",
+        "semantic/text/secondary",
+        "semantic/text/accent",
+        "semantic/border/subtle",
+        "spacing/spacing/4",
+        "spacing/spacing/8",
+        "spacing/spacing/12"
+      ]
+    },
+    {
+      "screen": "detail",
+      "component": "BasicList",
+      "tokenRefs": [
+        "textStyles/body/strong",
+        "spacing/spacing/8",
+        "spacing/spacing/24"
+      ]
+    },
+    {
+      "screen": "detail",
+      "component": "BenefitList",
+      "tokenRefs": [
+        "textStyles/body/strong",
+        "spacing/spacing/8",
+        "spacing/spacing/24"
+      ]
+    },
+    {
+      "screen": "apply",
+      "component": "TitleGroup",
+      "tokenRefs": [
+        "textStyles/heading/h3",
+        "semantic/text/primary",
+        "spacing/spacing/24"
+      ]
+    },
+    {
+      "screen": "apply",
+      "component": "ApplySummary",
+      "tokenRefs": [
+        "semantic/bg/default",
+        "spacing/spacing/8",
+        "spacing/spacing/16",
+        "radius/radius/12"
+      ]
+    },
+    {
+      "screen": "apply",
+      "component": "NameField",
+      "tokenRefs": [
+        "textStyles/body/small-medium",
+        "textStyles/body/strong",
+        "semantic/text/secondary",
+        "semantic/text/primary",
+        "semantic/text/placeholder",
+        "semantic/bg/surface",
+        "semantic/border/default",
+        "semantic/border/focus",
+        "spacing/spacing/4",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/20",
+        "spacing/spacing/58"
+      ]
+    },
+    {
+      "screen": "apply",
+      "component": "PhoneField",
+      "tokenRefs": [
+        "textStyles/body/small-medium",
+        "textStyles/body/strong",
+        "semantic/text/secondary",
+        "semantic/text/primary",
+        "semantic/text/placeholder",
+        "semantic/bg/surface",
+        "semantic/border/default",
+        "semantic/border/focus",
+        "spacing/spacing/4",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/20",
+        "spacing/spacing/58"
+      ]
+    },
+    {
+      "screen": "apply",
+      "component": "Agreement",
+      "tokenRefs": [
+        "textStyles/body/small-medium",
+        "semantic/text/primary",
+        "semantic/bg/surface",
+        "semantic/border/default",
+        "semantic/border/focus",
+        "spacing/spacing/8",
+        "spacing/spacing/24",
+        "spacing/spacing/40",
+        "radius/radius/4"
+      ]
+    },
+    {
+      "screen": "complete",
+      "component": "CompleteResult",
+      "tokenRefs": [
+        "textStyles/heading/h3",
+        "textStyles/body/small-medium",
+        "semantic/text/primary",
+        "semantic/text/secondary",
+        "semantic/icon/on-dark",
+        "semantic/fill/primary",
+        "spacing/spacing/4",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/24",
+        "radius/radius/full"
+      ]
+    },
+    {
+      "screen": "complete",
+      "component": "ApplicationCard",
+      "tokenRefs": [
+        "textStyles/body/strong",
+        "semantic/bg/default",
+        "spacing/spacing/8",
+        "spacing/spacing/16",
+        "radius/radius/12"
+      ]
+    },
+    {
+      "screen": "detail",
+      "component": "BottomCta",
+      "tokenRefs": [
+        "textStyles/body/strong",
+        "textStyles/body/small-medium",
+        "textStyles/subtitle/bold",
+        "semantic/bg/surface",
+        "semantic/border/subtle",
+        "semantic/text/secondary",
+        "semantic/text/primary",
+        "semantic/text/on-dark",
+        "semantic/text/on-disabled",
+        "semantic/fill/primary",
+        "semantic/fill/primary-hover",
+        "semantic/fill/disabled",
+        "semantic/border/focus",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/16",
+        "spacing/spacing/32",
+        "spacing/spacing/48",
+        "radius/radius/8"
+      ]
+    },
+    {
+      "screen": "apply",
+      "component": "BottomCta",
+      "tokenRefs": [
+        "textStyles/body/strong",
+        "textStyles/body/small-medium",
+        "textStyles/subtitle/bold",
+        "semantic/bg/surface",
+        "semantic/border/subtle",
+        "semantic/text/secondary",
+        "semantic/text/primary",
+        "semantic/text/on-dark",
+        "semantic/text/on-disabled",
+        "semantic/fill/primary",
+        "semantic/fill/primary-hover",
+        "semantic/fill/disabled",
+        "semantic/border/focus",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/16",
+        "spacing/spacing/32",
+        "spacing/spacing/48",
+        "radius/radius/8"
+      ]
+    },
+    {
+      "screen": "complete",
+      "component": "BottomCta",
+      "tokenRefs": [
+        "textStyles/body/strong",
+        "textStyles/body/small-medium",
+        "textStyles/subtitle/bold",
+        "semantic/bg/surface",
+        "semantic/border/subtle",
+        "semantic/text/secondary",
+        "semantic/text/primary",
+        "semantic/text/on-dark",
+        "semantic/text/on-disabled",
+        "semantic/fill/primary",
+        "semantic/fill/primary-hover",
+        "semantic/fill/disabled",
+        "semantic/border/focus",
+        "spacing/spacing/8",
+        "spacing/spacing/12",
+        "spacing/spacing/16",
+        "spacing/spacing/32",
+        "spacing/spacing/48",
+        "radius/radius/8"
+      ]
+    }
+  ],
+  "missing": [
+    {
+      "screen": "plans",
+      "component": "Header",
+      "requirement": "Design.md와 참고 CSS의 Header 높이 56px에 대응하는 크기 토큰이 없습니다. spacing/58은 Input 높이용이며 Header 값으로 임의 대체하거나 토큰 합산으로 56을 만들지 않습니다. 사용자 자료 갱신이 필요합니다."
+    },
+    {
+      "screen": "plans",
+      "component": "FontAsset",
+      "requirement": "tokens.json과 모든 textStyles는 Pretendard Variable을 요구합니다. 참고 @font-face는 Pretendard DS/Bold만 정의하며 해당 woff2도 Git LFS 포인터입니다. 실제 Pretendard Variable 원본 제공 및 신뢰 자산 입력 등록이 필요합니다. 폰트가 없다는 사실을 숨기는 fallback이나 외부 다운로드를 추가하지 않습니다."
+    },
+    {
+      "screen": "plans",
+      "component": "BorderAndFocus",
+      "requirement": "참고 CSS의 일반 테두리 1px, focus outline/offset 2px에 해당하는 토큰이 없습니다. spacing/4나 타이포 값으로 억지 계산하지 않습니다. 허용할 테두리·focus 두께 및 offset 토큰을 사용자 자료에 등록해야 합니다."
+    },
+    {
+      "screen": "detail",
+      "component": "Header",
+      "requirement": "Design.md와 참고 CSS의 Header 높이 56px에 대응하는 크기 토큰이 없습니다. spacing/58은 Input 높이용이며 Header 값으로 임의 대체하거나 토큰 합산으로 56을 만들지 않습니다. 사용자 자료 갱신이 필요합니다."
+    },
+    {
+      "screen": "detail",
+      "component": "FontAsset",
+      "requirement": "tokens.json과 모든 textStyles는 Pretendard Variable을 요구합니다. 참고 @font-face는 Pretendard DS/Bold만 정의하며 해당 woff2도 Git LFS 포인터입니다. 실제 Pretendard Variable 원본 제공 및 신뢰 자산 입력 등록이 필요합니다. 폰트가 없다는 사실을 숨기는 fallback이나 외부 다운로드를 추가하지 않습니다."
+    },
+    {
+      "screen": "detail",
+      "component": "BorderAndFocus",
+      "requirement": "참고 CSS의 일반 테두리 1px, focus outline/offset 2px에 해당하는 토큰이 없습니다. spacing/4나 타이포 값으로 억지 계산하지 않습니다. 허용할 테두리·focus 두께 및 offset 토큰을 사용자 자료에 등록해야 합니다."
+    },
+    {
+      "screen": "apply",
+      "component": "Header",
+      "requirement": "Design.md와 참고 CSS의 Header 높이 56px에 대응하는 크기 토큰이 없습니다. spacing/58은 Input 높이용이며 Header 값으로 임의 대체하거나 토큰 합산으로 56을 만들지 않습니다. 사용자 자료 갱신이 필요합니다."
+    },
+    {
+      "screen": "apply",
+      "component": "FontAsset",
+      "requirement": "tokens.json과 모든 textStyles는 Pretendard Variable을 요구합니다. 참고 @font-face는 Pretendard DS/Bold만 정의하며 해당 woff2도 Git LFS 포인터입니다. 실제 Pretendard Variable 원본 제공 및 신뢰 자산 입력 등록이 필요합니다. 폰트가 없다는 사실을 숨기는 fallback이나 외부 다운로드를 추가하지 않습니다."
+    },
+    {
+      "screen": "apply",
+      "component": "BorderAndFocus",
+      "requirement": "참고 CSS의 일반 테두리 1px, focus outline/offset 2px에 해당하는 토큰이 없습니다. spacing/4나 타이포 값으로 억지 계산하지 않습니다. 허용할 테두리·focus 두께 및 offset 토큰을 사용자 자료에 등록해야 합니다."
+    },
+    {
+      "screen": "complete",
+      "component": "Header",
+      "requirement": "Design.md와 참고 CSS의 Header 높이 56px에 대응하는 크기 토큰이 없습니다. spacing/58은 Input 높이용이며 Header 값으로 임의 대체하거나 토큰 합산으로 56을 만들지 않습니다. 사용자 자료 갱신이 필요합니다."
+    },
+    {
+      "screen": "complete",
+      "component": "FontAsset",
+      "requirement": "tokens.json과 모든 textStyles는 Pretendard Variable을 요구합니다. 참고 @font-face는 Pretendard DS/Bold만 정의하며 해당 woff2도 Git LFS 포인터입니다. 실제 Pretendard Variable 원본 제공 및 신뢰 자산 입력 등록이 필요합니다. 폰트가 없다는 사실을 숨기는 fallback이나 외부 다운로드를 추가하지 않습니다."
+    },
+    {
+      "screen": "complete",
+      "component": "BorderAndFocus",
+      "requirement": "참고 CSS의 일반 테두리 1px, focus outline/offset 2px에 해당하는 토큰이 없습니다. spacing/4나 타이포 값으로 억지 계산하지 않습니다. 허용할 테두리·focus 두께 및 offset 토큰을 사용자 자료에 등록해야 합니다."
+    },
+    {
+      "screen": "detail",
+      "component": "BottomCta",
+      "requirement": "Design.md/참고 CSS의 요약 포함 하단 CTA min-height 139px 토큰이 없습니다. 콘텐츠와 기존 padding 토큰으로 자연 높이를 사용하여 고정 높이 요구를 제거할지, 필요한 토큰을 자료에 추가할지 결정이 필요합니다."
+    },
+    {
+      "screen": "apply",
+      "component": "BottomCta",
+      "requirement": "Design.md/참고 CSS의 기본 하단 CTA min-height 97px 토큰이 없습니다. 콘텐츠와 기존 padding 토큰으로 자연 높이를 사용하여 고정 높이 요구를 제거할지, 필요한 토큰을 자료에 추가할지 결정이 필요합니다."
+    },
+    {
+      "screen": "complete",
+      "component": "BottomCta",
+      "requirement": "Design.md/참고 CSS의 기본 하단 CTA min-height 97px 토큰이 없습니다. 콘텐츠와 기존 padding 토큰으로 자연 높이를 사용하여 고정 높이 요구를 제거할지, 필요한 토큰을 자료에 추가할지 결정이 필요합니다."
+    },
+    {
+      "screen": "detail",
+      "component": "PriceCard",
+      "requirement": "참고 CSS의 PriceCard min-height 124px 토큰이 없습니다. 기존 padding/textStyles에 따른 콘텐츠 자연 높이로 대체할지, 필요한 토큰을 자료에 추가할지 결정이 필요합니다."
+    },
+    {
+      "screen": "detail",
+      "component": "ListRow",
+      "requirement": "참고 CSS의 ListRow min-height 46px 토큰이 없습니다. 기존 padding/textStyles에 따른 콘텐츠 자연 높이로 대체할지, 필요한 토큰을 자료에 추가할지 결정이 필요합니다."
+    },
+    {
+      "screen": "apply",
+      "component": "ListRow",
+      "requirement": "참고 CSS의 ListRow min-height 46px 토큰이 없습니다. 기존 padding/textStyles에 따른 콘텐츠 자연 높이로 대체할지, 필요한 토큰을 자료에 추가할지 결정이 필요합니다."
+    },
+    {
+      "screen": "complete",
+      "component": "ListRow",
+      "requirement": "참고 CSS의 ListRow min-height 46px 토큰이 없습니다. 기존 padding/textStyles에 따른 콘텐츠 자연 높이로 대체할지, 필요한 토큰을 자료에 추가할지 결정이 필요합니다."
+    },
+    {
+      "screen": "detail",
+      "component": "BenefitList",
+      "requirement": "참고 CSS의 원본 benefit-bullet 표시 크기 6px 토큰이 없습니다. 원본 SVG는 바이트 동일하게 재사용 가능하지만 CSS 크기는 토큰이 필요합니다."
+    },
+    {
+      "screen": "apply",
+      "component": "NameField",
+      "requirement": "Input 높이 58px는 spacing/spacing/58로 매핑되지만 참고 CSS의 하단 테두리 두께 1.5px 토큰이 없습니다. 사용자 자료에서 결정해야 합니다."
+    },
+    {
+      "screen": "apply",
+      "component": "PhoneField",
+      "requirement": "Input 높이 58px는 spacing/spacing/58로 매핑되지만 참고 CSS의 하단 테두리 두께 1.5px 토큰이 없습니다. 사용자 자료에서 결정해야 합니다."
+    },
+    {
+      "screen": "complete",
+      "component": "CompleteResult",
+      "requirement": "완료 원형 표식 64px 및 내부 원본 체크 표시 30px에 해당하는 크기 토큰이 없습니다. 원본 SVG 형상은 그대로 유지하며 표시 크기 토큰 제공이 필요합니다."
+    }
+  ],
+  "notes": [
+    "타이포의 caption/small 및 caption/small-bold는 독립 font-size 토큰 없이도 textStyles를 통해 12px/16px와 weight를 참조할 수 있으므로 누락으로 처리하지 않습니다.",
+    "Tag 높이 26px는 caption/bold의 line-height를 포함한 인라인 flex 자연 높이로 확보 가능하므로 별도 임의 수치를 만들지 않습니다.",
+    "콘텐츠 폭 358px는 화면 width 100%와 spacing/16 좌우 padding의 실제 박스 모델 결과입니다. 별도 숫자나 숨은 계산식이 필요하지 않습니다.",
+    "기준 viewport 390×844는 브라우저 검사 계약입니다. 앱 컨테이너는 spacing/390 max-width와 부모 기반 100%/flex 구조로 구현할 수 있습니다. reference의 320/640 min-size, 100dvh, 639px media 조건, z-index 20/30 및 shadow는 등록 토큰·허용 표현이 아니므로 그대로 복사하지 않습니다. 기본 승인 범위의 부모/문서 흐름을 사용하고 불필요한 고정 z-index·shadow·추가 viewport 규칙은 추가하지 않습니다.",
+    "Header 로고 32×24, nav/check 24×24, chip40/button48, Input58은 실제 spacing 토큰으로 매핑 가능하며 radius는 radius 컬렉션, 색은 semantic 컬렉션, 글꼴 속성은 각 textStyles 변수만 적용합니다.",
+    "참고 카드 높이와 글줄을 고정하는 수치가 토큰 밖이면 강제 합산으로 재현하지 않습니다. calc/min/max/clamp는 반응형 폭 등 의미 있는 구조에만 사용합니다.",
+    "누락 목록이 해소되기 전 tokens 게이트는 통과할 수 없고 앱 구현 단계로 넘어가지 않습니다."
+  ]
+}

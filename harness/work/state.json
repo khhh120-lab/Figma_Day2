@@ -56,7 +56,8 @@
     "inputs": 0,
     "requirements": 0,
     "inputs-after": 0,
-    "screens": 0
+    "screens": 0,
+    "token-map": 1
   },
   "approval": null
 }
