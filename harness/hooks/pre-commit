@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+// uplus-harness-managed-hook
+import {execFileSync} from 'node:child_process';
+import {pathToFileURL} from 'node:url';
+import path from 'node:path';
+try {
+  const root=execFileSync('git',['rev-parse','--show-toplevel'],{encoding:'utf8'}).trim();
+  const {main}=await import(pathToFileURL(path.join(root,'harness/scripts/precommit.mjs')).href);
+  main(root);
+} catch(error) {
+  console.error('하네스 훅 실행 실패: '+error.message);
+  process.exitCode=1;
+}

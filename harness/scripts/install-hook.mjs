@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {DEFAULT_ROOT,command,assert} from './common.mjs';
+const root=DEFAULT_ROOT;
+const configured=spawnSync('git',['config','--get','core.hooksPath'],{cwd:root,encoding:'utf8'});
+assert(configured.status===0||configured.status===1,'Git 훅 설정 조회 실패');
+assert(!configured.stdout.trim(),'기존 core.hooksPath가 있어 자동으로 변경하지 않음');
+const hooks=path.resolve(root,command('git',['rev-parse','--git-path','hooks'],{cwd:root}));
+const gitDir=path.resolve(root,command('git',['rev-parse','--git-dir'],{cwd:root}));
+assert(hooks.startsWith(gitDir+path.sep),'훅 경로가 현재 Git 메타데이터 안에 있지 않음');
+const source=fs.readFileSync(path.join(root,'harness/hooks/pre-commit'),'utf8').replaceAll('\r\n','\n');
+const target=path.join(hooks,'pre-commit');
+if(fs.existsSync(target)) assert(fs.readFileSync(target,'utf8').includes('uplus-harness-managed-hook'),'기존 pre-commit 훅을 덮어쓸 수 없음');
+fs.mkdirSync(hooks,{recursive:true});fs.writeFileSync(target,source,{mode:0o755});fs.chmodSync(target,0o755);
+console.log('Installed Node pre-commit hook. Existing LFS pre-push hook preserved.');
