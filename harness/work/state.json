@@ -102,7 +102,10 @@
     "lint": 0,
     "browser": 0
   },
-  "approval": null,
+  "approval": {
+    "commit": "aa70fb72f74bea85f640b69db1230f49971e866e",
+    "approvedAt": "2026-10-14T06:29:09.212Z"
+  },
   "userDecisions": {
     "tokenWriteException": {
       "path": "docs/tokens.json",
