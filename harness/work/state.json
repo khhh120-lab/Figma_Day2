@@ -50,6 +50,13 @@
       "artifactHashes": {
         "harness/work/screens.json": "9d736cce88cbc4ed63f1741ca5b743d81b66181848266918a41aba91072b7fcd"
       }
+    },
+    {
+      "stage": "tokens",
+      "commit": "b444bd0be1559f77b81e492c70c1a7d09493ddf7",
+      "artifactHashes": {
+        "harness/work/token-map.json": "267884b8ea94590bc3d941690dd2618aab9c68be5265bb1c1c5193eb2841b23f"
+      }
     }
   ],
   "failures": {
