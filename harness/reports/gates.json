@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "stage": "requirements",
+  "passed": true,
+  "results": [
+    {
+      "id": "inputs",
+      "status": "pass",
+      "returnTo": "requirements",
+      "errors": []
+    },
+    {
+      "id": "requirements",
+      "status": "pass",
+      "returnTo": "requirements",
+      "errors": []
+    },
+    {
+      "id": "inputs-after",
+      "status": "pass",
+      "returnTo": "requirements",
+      "errors": []
+    }
+  ]
+}
