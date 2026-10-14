@@ -1,0 +1,10 @@
+{
+  "description": "Create interactive prototypes quickly and easily, enabling designers and teams to visualize concepts and enhance collaboration in the development process.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
