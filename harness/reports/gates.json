@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "stage": "tokens",
+  "stage": "app",
   "passed": true,
   "results": [
     {
@@ -25,6 +25,30 @@
       "id": "token-map",
       "status": "pass",
       "returnTo": "tokens",
+      "errors": []
+    },
+    {
+      "id": "styles",
+      "status": "pass",
+      "returnTo": "app",
+      "errors": []
+    },
+    {
+      "id": "build",
+      "status": "pass",
+      "returnTo": "app",
+      "errors": []
+    },
+    {
+      "id": "lint",
+      "status": "pass",
+      "returnTo": "app",
+      "errors": []
+    },
+    {
+      "id": "browser",
+      "status": "pass",
+      "returnTo": "app",
       "errors": []
     },
     {

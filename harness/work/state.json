@@ -57,6 +57,38 @@
       "artifactHashes": {
         "harness/work/token-map.json": "267884b8ea94590bc3d941690dd2618aab9c68be5265bb1c1c5193eb2841b23f"
       }
+    },
+    {
+      "stage": "app",
+      "commit": "aa70fb72f74bea85f640b69db1230f49971e866e",
+      "artifactHashes": {
+        "app/.gitignore": "dd3382c73890c05486bd494434184003bf5600bbc24346614f3f4342f97fd805",
+        "app/AGENTS.md": "063098f6cb31bb44c6f8fbea25b3876de7ee1e5f7d00a50dbab506f6415eb7f0",
+        "app/eslint.config.mjs": "5729484f6287ac69e0a7903d0aa3daf9becc9bd5ec4525090658fa45a2bde9bb",
+        "app/next-env.d.ts": "aabd5a89c5196eacdf751bc2a3ab6873cab195b7e626699c681b929b11f0d5dc",
+        "app/next.config.ts": "1504ae680eb1f92cc633428d8a2a1cf579d99b77e85e882d923eb679e5b85543",
+        "app/package-lock.json": "e81475a5562a608bfbedf207cc0bf2a554c5cd9ab468f2aa534d48f13ac1942c",
+        "app/package.json": "f295eec3408209a22ed723c295183d1c0473217b714eb239005ae60a003ecefd",
+        "app/postcss.config.mjs": "b783348d5618047d0f37e12acd15c5a2c5f02809d8711e0764c9cea52750346c",
+        "app/public/assets/38036.svg": "21dae8f2bca6834d923e4d0d411f0a25b21baea4eeac463fb7bc3c140e22c398",
+        "app/public/assets/7c149.svg": "332d1d47d8a2adf69b0c992a6eb800348e3d98f89616556abd79c5c80b915660",
+        "app/public/assets/d5cc2.svg": "790e07eb164d4fea6fb094da6ea10f5fddb253da2931c7a7c11e0c6fa5fe66b3",
+        "app/public/assets/e8d68.svg": "65a9862432c9885aaeb834e6213e37d50030893b62a06aec5f67eafdd93a8a96",
+        "app/public/assets/f152b.svg": "4344080594acd92bcc80611f98ad8ec9334fb516475a30e10f983940381af9d3",
+        "app/public/fonts/LICENSE": "d31ddd9f2bed32fd7e302a205cf2380ba0de6529152d239ef99cfb6f261bfc04",
+        "app/public/fonts/PretendardVariable.woff2": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4",
+        "app/README.md": "481c4c78412b17020846cf1fcfc3ad26f6b2a5e3e1cf3d8fa7d06fd1c8d60cd2",
+        "app/src/app/apply/page.tsx": "f6d911ca81ca3490c7bef0bac679cd3d1dd11a0e44e551d74ee13bbd4b3d217a",
+        "app/src/app/complete/page.tsx": "8e306c5667254d3192fd43903000c4f5cbe8aaeb68e50b695ca13d7288d3db54",
+        "app/src/app/globals.css": "fe1a6500ae636a9d9d6369ceaf3b2559557ad77972b1c8f7643db9e69e6f268c",
+        "app/src/app/layout.tsx": "26720091e47effe928ce15c5862fb00cd013596c93082da710bb32bd08bd3062",
+        "app/src/app/page.tsx": "e9e5238856c61168ed96d12209a5cd6edaaa8158eb7965ea06c2a3771a50f556",
+        "app/src/app/plans/page.tsx": "e1100500c1acbb790601857d0f3abc0f4738378e23c73ad8a84ba6280bc265cf",
+        "app/src/app/plans/[id]/page.tsx": "23252ccc220827b576b8a3cdce675583401c560480e40845ae7928e894225adb",
+        "app/src/components/screens.tsx": "4259c2e1b81ee9807296fd1723405a221c8c3a99bebc4413079510dc6b68bad9",
+        "app/src/tokens.css": "2209de8c3ea9c335b65d1003fe3724d7e937103b7a6205983693b84883421e68",
+        "app/tsconfig.json": "a26eb9c5b9ab53aa687269bab9540f93dcc9a2651d5476cc863ff76927bb51d2"
+      }
     }
   ],
   "failures": {
@@ -64,7 +96,11 @@
     "requirements": 0,
     "screens": 0,
     "token-map": 0,
-    "inputs-after": 0
+    "inputs-after": 0,
+    "styles": 0,
+    "build": 0,
+    "lint": 0,
+    "browser": 0
   },
   "approval": null,
   "userDecisions": {
