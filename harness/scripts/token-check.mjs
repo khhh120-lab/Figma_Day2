@@ -43,8 +43,45 @@ export function tokenCatalog(root) {
 }
 export function canonicalTokenCss(root) {
   const {entries}=tokenCatalog(root);
-  return '/* Generated from docs/tokens.json. Do not edit. */\n:root {\n'+
+  const fonts=approvedAssets(root).filter(a=>a.family).map(a=>'@font-face {\n  font-family: "Pretendard Variable";\n  src: url("/'+a.path.slice('app/public/'.length)+'") format("woff2");\n  font-weight: 100 900;\n  font-style: normal;\n  font-display: swap;\n}\n').join('');
+  return '/* Generated from docs/tokens.json. Do not edit. */\n'+fonts+':root {\n'+
     [...entries].sort(([a],[b])=>a.localeCompare(b)).map(([name,e])=>'  '+name+': '+e.value+';').join('\n')+'\n}\n';
+}
+export const FONT_SOURCE='https://raw.githubusercontent.com/orioncactus/pretendard/v1.3.9/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2';
+export function approvedAssets(root) {
+  const manifest=path.join(root,'harness/approved-assets.json');
+  if(!fs.existsSync(manifest)) return [];
+  const doc=readJson(manifest);
+  assert(doc.schemaVersion===1&&Array.isArray(doc.assets),'승인 자산 구조 오류');
+  const seen=new Set();
+  const verify=a=>{
+    assert(typeof a.path==='string'&&/^app\/public\/fonts\/[A-Za-z0-9_.-]+$/.test(a.path),'승인 자산 경로 탈출 거부');
+    assert(!seen.has(a.path),'승인 자산 중복');seen.add(a.path);
+    assert(/^[a-f0-9]{64}$/.test(a.sha256),'승인 자산 SHA 오류');
+    const p=path.join(root,a.path);
+    assert(fs.existsSync(p)&&!fs.lstatSync(p).isSymbolicLink(),'승인 자산 누락·symlink');
+    assert(hash(fs.readFileSync(p))===a.sha256,'승인 자산 SHA 불일치: '+a.path);
+  };
+  for(const a of doc.assets) {
+    verify(a);
+    assert(a.path==='app/public/fonts/PretendardVariable.woff2'&&a.source===FONT_SOURCE&&a.family==='Pretendard Variable'&&a.weight==='100 900'&&a.style==='normal'&&a.display==='swap','공식 폰트 승인 메타데이터 불일치');
+    assert(a.sha256==='9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4','공식 승인 폰트 해시 불일치');
+    assert(fs.readFileSync(path.join(root,a.path)).subarray(0,4).toString()==='wOF2','실제 WOFF2 폰트 필요');
+    if(a.license) verify(a.license);
+    if(a.licensePath) verify({path:a.licensePath,sha256:a.licenseSha256});
+  }
+  return doc.assets;
+}
+export function verifiedTailwind(root,dependencyRoot=root) {
+  const pkg=readJson(path.join(root,'app/package.json'));
+  assert(pkg.dependencies?.tailwindcss||pkg.devDependencies?.tailwindcss,'Tailwind 의존성 누락');
+  const lock=readJson(path.join(root,'app/package-lock.json'));
+  const locked=lock.packages?.['node_modules/tailwindcss']?.version;
+  const installed=readJson(path.join(dependencyRoot,'app/node_modules/tailwindcss/package.json')).version;
+  assert(typeof locked==='string'&&/^4\./.test(locked)&&installed===locked,'Tailwind v4 실제 설치·lock 버전 불일치');
+  const declared=lock.packages?.['']?.dependencies?.tailwindcss||lock.packages?.['']?.devDependencies?.tailwindcss;
+  assert(declared===(pkg.dependencies?.tailwindcss||pkg.devDependencies?.tailwindcss),'Tailwind package·lock 선언 불일치');
+  return true;
 }
 const layoutProps=new Set(['display','position','overflow','overflow-x','overflow-y','flex-direction','flex-wrap','align-items','align-self','align-content','justify-content','justify-items','justify-self','box-sizing','text-align','white-space','word-break','overflow-wrap','cursor','pointer-events','visibility','object-fit','object-position','appearance','user-select','text-decoration','text-transform','border-style','outline-style','list-style','list-style-type','isolation','grid-auto-flow','font-display']);
 const keywords=new Set(['0','auto','inherit','initial','unset','none','normal','currentcolor','transparent','100%','min-content','max-content','fit-content']);
@@ -95,7 +132,7 @@ export function valueErrors(prop,value,entries) {
   }
   visit(ast.nodes); return errors;
 }
-export function inspectStyles(root) {
+export function inspectStyles(root,{dependencyRoot=root}={}) {
   const {entries}=tokenCatalog(root), errors=[];
   const tokenFile=path.join(root,'app/src/tokens.css');
   if(!fs.existsSync(tokenFile)) errors.push('생성된 app/src/tokens.css 없음');
@@ -114,6 +151,9 @@ export function inspectStyles(root) {
       });
       ast.walkAtRules(a=>{
         if(a.name==='import') {
+          if(a.params==='"tailwindcss"'||a.params==="'tailwindcss'") {
+            try{verifiedTailwind(root,dependencyRoot);}catch(e){errors.push(p+': '+e.message);} return;
+          }
           const match=a.params.match(/^["']([^"']+)["']$/);
           if(!match||!fs.existsSync(path.resolve(path.dirname(p),match[1]))||!path.resolve(path.dirname(p),match[1]).startsWith(path.join(root,'app')+path.sep)) errors.push(p+': 외부·미검사 CSS import 거부');
           else if(path.resolve(path.dirname(p),match[1])===tokenFile) importedTokens=true;
@@ -179,6 +219,7 @@ export function inspectStyles(root) {
   const statePath=path.join(root,'harness/work/state.json');
   const baseline=fs.existsSync(statePath)?readJson(statePath).inputHashes:readJson(path.join(root,'harness/input-baseline.json'));
   const trusted=new Set(Object.entries(baseline).filter(([p])=>p.startsWith('reference/make-export/public/')).map(([,v])=>v));
+  for(const a of approvedAssets(root)) trusted.add(a.sha256);
   for(const p of files.filter(p=>/\.(?:svg|woff2?|ttf|otf|png|jpe?g|webp|gif)$/i.test(p))) {
     const data=fs.readFileSync(p);
     if(data.subarray(0,40).toString().startsWith('version https://git-lfs.github.com')) errors.push(p+': LFS 포인터는 실제 자산이 아님');

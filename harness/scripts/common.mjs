@@ -66,7 +66,7 @@ export function sourceFiles(root) {
     return fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>{
       const p=path.join(d,e.name);
       if(e.isSymbolicLink()) throw new Error('앱 심볼릭 링크 거부: '+p);
-      if(e.isDirectory()) return ['node_modules','dist','.git','.cache','coverage'].includes(e.name)?[]:visit(p);
+      if(e.isDirectory()) return ['node_modules','dist','.next','.git','.cache','coverage'].includes(e.name)?[]:visit(p);
       return e.isFile()?[p]:[];
     });
   }

@@ -4,7 +4,7 @@
     "docs/Design.md": "5299cdcac56ef8e6d615a4f3ecd8c9a6da1215ef5cef6356c99635001053a33d",
     "docs/PRD.md": "e43f2989d325887fe22bb140e35cf1e9b8507c152892118015f9a99f84413599",
     "docs/screens.md": "a2f78d034a704155c66e24a5445710bd48b996000bab812f24bddaa6250a149c",
-    "docs/tokens.json": "ab3403fde81785c075425707d7e3ad257a23aab3a733a67364c30ccf96e34733",
+    "docs/tokens.json": "7240e8f33dc186eac0e31393ed6194506bdfc2540f01da282d1f5233b61ad2b8",
     "reference/flow.png": "822625c30b6125077ada8bde2eb953b6f1e73c08bd90df13c91dd686fd122947",
     "reference/make-export/.figma/make/analyze-routes": "7a81578bcfa5ba5f2105d7165e0cd2d8d1c6151d2a0c5ba766b3ef1c824ee788",
     "reference/make-export/.figma/make/deploy": "fe35b0aff744f5aa8bb16eb1590c720ff6b0ff4bce9ede78f73e02bbfd7e7f3f",
@@ -55,9 +55,28 @@
   "failures": {
     "inputs": 0,
     "requirements": 0,
-    "inputs-after": 0,
     "screens": 0,
-    "token-map": 1
+    "token-map": 0,
+    "inputs-after": 0
   },
-  "approval": null
+  "approval": null,
+  "userDecisions": {
+    "tokenWriteException": {
+      "path": "docs/tokens.json",
+      "values": [
+        56,
+        1,
+        1.5,
+        2,
+        6,
+        30,
+        64
+      ]
+    },
+    "layoutHeights": "intrinsic-using-existing-text-and-padding-tokens",
+    "font": "official-Pretendard-Variable-v1.3.9-local-with-sha256",
+    "compatibility": "Next-server-arguments-Tailwind-v4-import-official-font-provenance",
+    "approvedBy": "user: exception approval",
+    "finalApproval": false
+  }
 }

@@ -1,0 +1,16 @@
+{
+  "assets": [
+    {
+      "family": "Pretendard Variable",
+      "licenseSha256": "d31ddd9f2bed32fd7e302a205cf2380ba0de6529152d239ef99cfb6f261bfc04",
+      "style": "normal",
+      "path": "app/public/fonts/PretendardVariable.woff2",
+      "sha256": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4",
+      "weight": "100 900",
+      "source": "https://raw.githubusercontent.com/orioncactus/pretendard/v1.3.9/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
+      "licensePath": "app/public/fonts/LICENSE",
+      "display": "swap"
+    }
+  ],
+  "schemaVersion": 1
+}

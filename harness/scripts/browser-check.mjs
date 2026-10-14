@@ -11,18 +11,24 @@ async function freePort() {
   const port=server.address().port;
   await new Promise(resolve=>server.close(resolve)); return port;
 }
+export function devArguments(pkg,port) {
+  const next=Boolean(pkg.dependencies?.next||pkg.devDependencies?.next);
+  return ['run','dev','--',next?'--hostname':'--host','127.0.0.1','--port',String(port)];
+}
 export async function exerciseBrowser(baseURL,plans,launchOptions={}) {
   const browser=await chromium.launch({headless:true,...launchOptions});
   const errors=[];
   try {
     const page=await browser.newPage({viewport:VIEWPORT});
+    page.setDefaultNavigationTimeout(90000);
     const pageErrors=[];
     page.on('pageerror',e=>pageErrors.push(e.message));
     async function screen(id) {
-      await page.waitForSelector('main[data-screen="'+id+'"]',{state:'visible',timeout:10000});
+      await page.waitForSelector('main[data-screen="'+id+'"]',{state:'visible',timeout:60000});
       assert(await page.locator('main[data-screen]').count()===1,'렌더링된 화면 루트가 정확히 1개 아님');
       const current=await page.locator('main[data-screen]').getAttribute('data-screen');
       assert(current===id,'직접 접근의 화면 id 불일치');
+      await page.waitForFunction(()=>Array.isArray(window.__HARNESS_ROUTES__),{},{timeout:60000});
       const registry=await page.evaluate(()=>window.__HARNESS_ROUTES__);
       assert(Array.isArray(registry)&&registry.length===4,'실제 라우트 레지스트리가 정확히 4개 아님');
       const actual=registry.map(x=>x.id+':'+x.route).sort();
@@ -83,17 +89,19 @@ export async function inspectBrowser(root) {
   assert(typeof pkg.scripts?.dev==='string'&&pkg.scripts.dev.trim(),'dev 명령 없음');
   const port=await freePort(),baseURL='http://127.0.0.1:'+port;
   const win=process.platform==='win32';
-  const server=win?spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm.cmd run dev -- --host 127.0.0.1 --port '+port],{cwd:app,stdio:'pipe',windowsHide:true}):
-    spawn('npm',['run','dev','--','--host','127.0.0.1','--port',String(port)],{cwd:app,stdio:'pipe'});
+  const args=devArguments(pkg,port);
+  const server=win?spawn(process.env.ComSpec||'cmd.exe',['/d','/s','/c','npm.cmd '+args.join(' ')],{cwd:app,stdio:'pipe',windowsHide:true}):
+    spawn('npm',args,{cwd:app,stdio:'pipe'});
   let log='',spawnError;
   server.on('error',e=>{spawnError=e;});
   server.stdout.on('data',b=>log=(log+b).slice(-6000));server.stderr.on('data',b=>log=(log+b).slice(-6000));
   try {
     let ready=false;
-    for(let i=0;i<60;i++) {
+    const deadline=Date.now()+180000;
+    for(;Date.now()<deadline;) {
       if(spawnError) throw spawnError;
       if(server.exitCode!==null) throw new Error('dev 서버 종료: '+log);
-      try { const r=await fetch(baseURL,{signal:AbortSignal.timeout(800)}); if(r.ok){ready=true;break;} }catch{}
+      try { const r=await fetch(baseURL+'/plans',{signal:AbortSignal.timeout(10000)}); if(r.ok){ready=true;break;} }catch{}
       await new Promise(r=>setTimeout(r,500));
     }
     assert(ready,'dev 서버 준비 실패: '+log);

@@ -5,12 +5,12 @@ import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
 import {spawnSync} from 'node:child_process';
-import {snapshot,protectionErrors,referencePlans,hash} from '../scripts/common.mjs';
+import {snapshot,protectionErrors,referencePlans,hash,DEFAULT_ROOT} from '../scripts/common.mjs';
 import {canonicalTokenCss,inspectStyles,tokenCatalog,valueErrors} from '../scripts/token-check.mjs';
 import {requirementsErrors,screensErrors,mappingErrors,runGates} from '../scripts/gates.mjs';
 import {invalidateStage,progress,updateFailures} from '../scripts/progress.mjs';
 import {inspectCommit} from '../scripts/precommit.mjs';
-import {exerciseBrowser} from '../scripts/browser-check.mjs';
+import {exerciseBrowser,devArguments} from '../scripts/browser-check.mjs';
 import {SCREENS,REQUIRED_INPUTS} from '../scripts/contract.mjs';
 const put=(root,rel,text)=>{const p=path.join(root,rel);fs.mkdirSync(path.dirname(p),{recursive:true});fs.writeFileSync(p,text);};
 const json=(root,rel,data)=>put(root,rel,JSON.stringify(data));
@@ -49,6 +49,53 @@ test('원본 변경·추가·삭제를 모두 보호한다',()=>withFixture(({ro
   const baseline=snapshot(root);assert.deepEqual(protectionErrors(root,baseline),[]);
   put(root,'docs/PRD.md','changed');put(root,'reference/new.txt','new');fs.unlinkSync(path.join(root,'reference/flow.png'));
   assert.equal(protectionErrors(root,baseline).length,3);
+}));
+test('Next 전용 hostname 인수와 Vite host 인수를 구별한다',()=>{
+  assert.deepEqual(devArguments({dependencies:{next:'16.4.0'}},3001),['run','dev','--','--hostname','127.0.0.1','--port','3001']);
+  assert.equal(devArguments({dependencies:{vite:'7'}},3001)[3],'--host');
+});
+test('Tailwind v4 검증된 기본 import만 허용하며 사용자 값은 계속 거부한다',()=>withFixture(({root})=>{
+  json(root,'app/package.json',{devDependencies:{tailwindcss:'^4.3.3'}});
+  json(root,'app/package-lock.json',{packages:{'':{devDependencies:{tailwindcss:'^4.3.3'}},'node_modules/tailwindcss':{version:'4.3.3'}}});
+  json(root,'app/node_modules/tailwindcss/package.json',{version:'4.3.3'});
+  put(root,'app/src/style.css','@import "tailwindcss"; .screen { padding:17px; }');
+  let errors=inspectStyles(root);assert.ok(errors.some(x=>x.includes('17px')));assert.ok(!errors.some(x=>x.includes('CSS import')));
+  put(root,'app/src/style.css','@import "tailwindcss";');assert.deepEqual(inspectStyles(root),[]);
+  json(root,'app/node_modules/tailwindcss/package.json',{version:'3.4.0'});
+  assert.ok(inspectStyles(root).some(x=>x.includes('버전 불일치')));
+  put(root,'app/src/style.css','@import "tailwindcss/theme";');
+  assert.ok(inspectStyles(root).some(x=>x.includes('CSS import')));
+}));
+test('폰트 승인 SHA와 경로를 우회할 수 없다',()=>withFixture(({root})=>{
+  put(root,'app/public/fonts/PretendardVariable.woff2','wOF2fake');
+  json(root,'harness/approved-assets.json',{schemaVersion:1,assets:[{path:'app/public/fonts/PretendardVariable.woff2',sha256:hash('wOF2fake'),source:'https://raw.githubusercontent.com/orioncactus/pretendard/v1.3.9/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2',family:'Pretendard Variable',weight:'100 900',style:'normal',display:'swap'}]});
+  assert.throws(()=>canonicalTokenCss(root),/공식 승인 폰트 해시/);
+  json(root,'harness/approved-assets.json',{schemaVersion:1,assets:[{path:'../outside',sha256:hash('wOF2fake')}]});
+  assert.throws(()=>canonicalTokenCss(root),/경로 탈출/);
+}));
+test('토큰 staging은 명시적 승인과 현재·index·state SHA 일치가 모두 필요하다',()=>withFixture(({root})=>{
+  git(root,['init','-b','main']);git(root,['add','--','docs','reference','harness','app']);
+  git(root,['-c','user.name=Harness Test','-c','user.email=harness@example.invalid','commit','-m','fixture']);
+  const tokens=JSON.parse(fs.readFileSync(path.join(root,'docs/tokens.json')));tokens.meta.note='approved';json(root,'docs/tokens.json',tokens);
+  git(root,['add','--','docs/tokens.json']);json(root,'harness/work/state.json',{inputHashes:snapshot(root)});
+  assert.ok(inspectCommit(root).some(x=>x.includes('스테이징 금지')));
+  json(root,'harness/work/state.json',{inputHashes:snapshot(root),userDecisions:{tokenWriteException:{path:'docs/tokens.json'}}});
+  assert.deepEqual(inspectCommit(root),[]);
+  tokens.meta.note='unstaged';json(root,'docs/tokens.json',tokens);
+  assert.ok(inspectCommit(root).some(x=>x.includes('스테이징 금지')));
+}));
+test('공식 로컬폰트 생성 및 staging된 폰트 변조를 검사한다',()=>withFixture(({root})=>{
+  const asset=JSON.parse(fs.readFileSync(path.join(DEFAULT_ROOT,'harness/approved-assets.json'))).assets[0];
+  for(const rel of [asset.path,asset.licensePath]) put(root,rel,fs.readFileSync(path.join(DEFAULT_ROOT,rel)));
+  json(root,'harness/approved-assets.json',{schemaVersion:1,assets:[asset]});
+  put(root,'app/src/tokens.css',canonicalTokenCss(root));
+  assert.match(canonicalTokenCss(root),/@font-face/);assert.deepEqual(inspectStyles(root),[]);
+  git(root,['init','-b','main']);git(root,['add','--','docs','reference','harness','app']);
+  git(root,['-c','user.name=Harness Test','-c','user.email=harness@example.invalid','commit','-m','fixture']);
+  put(root,asset.path,'wOF2corrupt');git(root,['add','--',asset.path]);
+  // Restore working bytes: the index must still be inspected rather than the valid working font.
+  put(root,asset.path,fs.readFileSync(path.join(DEFAULT_ROOT,asset.path)));
+  assert.throws(()=>inspectCommit(root),/SHA 불일치/);
 }));
 test('참고 요금제 추출 및 계획의 화면·데이터·토큰 검증',()=>withFixture(({root,plans})=>{
   assert.deepEqual(referencePlans(root),plans);assert.deepEqual(requirementsErrors(root),[]);
