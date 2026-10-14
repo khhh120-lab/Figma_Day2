@@ -67,7 +67,7 @@ export function sourceFiles(root) {
       const p=path.join(d,e.name);
       if(e.isSymbolicLink()) throw new Error('앱 심볼릭 링크 거부: '+p);
       if(e.isDirectory()) return ['node_modules','dist','.next','.git','.cache','coverage'].includes(e.name)?[]:visit(p);
-      return e.isFile()&&!e.name.endsWith('.tsbuildinfo')?[p]:[];
+      return e.isFile()&&!e.name.endsWith('.tsbuildinfo')&&!e.name.startsWith('.env')?[p]:[];
     });
   }
   return visit(dir);
