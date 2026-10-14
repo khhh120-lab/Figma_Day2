@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    "docs/PRD.md",
+    "docs/screens.md",
+    "docs/Design.md",
+    "docs/tokens.json",
+    "reference/flow.png",
+    "reference/make-export/src/App.tsx",
+    "reference/make-export/src/styles/global.css",
+    "reference/make-export/src/index.css"
+  ],
+  "userStories": [
+    "출퇴근길에 영상을 보는 고객으로서, 월말까지 데이터를 쓰기 위해 데이터량을 기준으로 요금제를 비교하고 싶다.",
+    "선택이 어려운 고객으로서, 비교할 후보를 줄이기 위해 내 상황에 맞는 요금제만 추려 보고 싶다.",
+    "무제한 요금제를 보는 고객으로서, 기본 데이터 소진 후 속도 제한이 있는지 확인하고 싶다.",
+    "여러 가격이 함께 적힌 요금제를 보는 고객으로서, 매달 내는 금액과 24개월 할인 종료 후 금액을 확인하고 싶다.",
+    "요금제를 고른 고객으로서, 서비스 안에서 바로 신청하고 싶다."
+  ],
+  "precedence": "reference",
+  "conflicts": [
+    {
+      "issue": "PRD의 p01~p04와 참고 코드의 요금제 ID·이름·월 요금이 다르다.",
+      "source": "docs/PRD.md",
+      "resolution": "참고 plans 순서와 unlimited 85000원, standard 69000원, light 49000원, slim 39000원을 따른다."
+    },
+    {
+      "issue": "PRD는 추천 1개·전체 필터·저가순을 제안하지만 참고 코드는 추천 4개·데이터 많이 기본 선택·배열 순서다.",
+      "source": "docs/PRD.md",
+      "resolution": "추천 4개와 데이터 많이/가성비/구독 포함/통화 많이 필터를 그대로 사용하고 categories로 필터링한다."
+    },
+    {
+      "issue": "PRD의 할인 종료 가격과 속도 정보 표시 요구가 참고 코드의 원가·할인율·혜택 표시와 다르다.",
+      "source": "docs/PRD.md",
+      "resolution": "원가·할인율·프로모션·혜택은 참고 코드대로 표시하고 25개월째 가격이나 별도 속도 문구를 추가하지 않는다."
+    },
+    {
+      "issue": "PRD는 이름 비어 있지 않음·휴대폰 숫자 11자리와 오류 안내를 요구하지만 참고 코드는 이름 trim 2자 이상·전화 숫자 10자 이상·동의로 활성화한다.",
+      "source": "docs/PRD.md",
+      "resolution": "참고 검증과 이름 문자 정제·전화 11자리 제한 및 하이픈 포맷을 따른다. 참고에 없는 오류 안내를 추가하지 않는다."
+    },
+    {
+      "issue": "PRD는 Subscription 저장을 요구하지만 참고 코드는 React 메모리 상태로 신청 내역을 보유한다.",
+      "source": "docs/PRD.md",
+      "resolution": "메모리 신청 상태와 참고 완료 화면 직접 접근용 샘플을 유지한다. 실제 신청 후에는 선택한 요금제 ID·이름·월 요금을 일치시킨다."
+    },
+    {
+      "issue": "문서의 완료 뒤로 이동·더 보기 목적지는 미정의다.",
+      "source": "docs/screens.md",
+      "resolution": "참고대로 뒤로는 history.back(), 요금제 더 보기는 /plans로 전체 이동한다."
+    },
+    {
+      "issue": "참고 TypeScript에는 일부 객체·속성 구분 문법 오류가 있으며 하네스 DOM 식별자가 없다.",
+      "source": "reference/make-export/src/App.tsx",
+      "resolution": "화면 구현 단계에서 기능·문구를 보존하여 문법만 유효하게 만들고 contract.mjs의 실제 표시 DOM 식별자와 라우트 테이블을 추가한다."
+    },
+    {
+      "issue": "참고 CSS의 수치를 그대로 복사하면 tokens.json 단일 기준에 위배될 수 있다.",
+      "source": "reference/make-export/src/styles/global.css",
+      "resolution": "시각 구조는 참고하되 디자인 값은 토큰 매핑 단계에서 등록 토큰으로만 결정하며 누락은 질문한다."
+    }
+  ],
+  "unresolved": [],
+  "plans": [
+    {
+      "monthlyPrice": 85000,
+      "name": "넉넉 무제한",
+      "id": "unlimited"
+    },
+    {
+      "monthlyPrice": 69000,
+      "name": "스탠다드 110",
+      "id": "standard"
+    },
+    {
+      "monthlyPrice": 49000,
+      "name": "라이트 30",
+      "id": "light"
+    },
+    {
+      "monthlyPrice": 39000,
+      "name": "슬림 10",
+      "id": "slim"
+    }
+  ]
+}
