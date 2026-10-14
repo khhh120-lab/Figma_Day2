@@ -43,12 +43,20 @@
       "artifactHashes": {
         "harness/work/requirements.json": "3e54052b1d4adcfb568510a1c285d701de53deaa1165adc2015260063e9f8c0d"
       }
+    },
+    {
+      "stage": "screens",
+      "commit": "ab4ab4f3e9ae580f9f7a469912c7a8f4cea76aa8",
+      "artifactHashes": {
+        "harness/work/screens.json": "9d736cce88cbc4ed63f1741ca5b743d81b66181848266918a41aba91072b7fcd"
+      }
     }
   ],
   "failures": {
     "inputs": 0,
     "requirements": 0,
-    "inputs-after": 0
+    "inputs-after": 0,
+    "screens": 0
   },
   "approval": null
 }

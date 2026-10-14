@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "stage": "requirements",
+  "stage": "screens",
   "passed": true,
   "results": [
     {
@@ -13,6 +13,12 @@
       "id": "requirements",
       "status": "pass",
       "returnTo": "requirements",
+      "errors": []
+    },
+    {
+      "id": "screens",
+      "status": "pass",
+      "returnTo": "screens",
       "errors": []
     },
     {
