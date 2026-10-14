@@ -680,3 +680,13 @@ button {
 html, body { height: 100%; }
 .app-frame { height: 100%; }
 .tag { align-self: flex-start; }
+
+.submission-error {
+  margin: 0;
+  color: var(--semantic-text-error);
+  font-family: var(--text-body-small-medium-font-family);
+  font-size: var(--text-body-small-medium-font-size);
+  font-weight: var(--text-body-small-medium-font-weight);
+  line-height: var(--text-body-small-medium-line-height);
+  letter-spacing: var(--text-body-small-medium-letter-spacing);
+}

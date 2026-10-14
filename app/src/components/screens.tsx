@@ -1,9 +1,11 @@
 "use client";
+import {plans, type Plan} from "../lib/plans";
 import {useRouter} from "next/navigation";
 import {
   useEffect,
   useMemo,
   useState,
+  useRef,
   type FormEvent,
   type ReactNode,
   createContext, useContext,
@@ -14,20 +16,6 @@ type Route = { name: "plans" } | { name: "detail"; planId: string } | {
   planId: string
 } | { name: "complete" }
 
-type Plan = {
-  id: string
-  name: string
-  price: number
-  originalPrice?: number
-  discount?: string
-  data: string
-  description: string
-  badge?: string
-  promo?: string
-  categories: Array<"데이터 많이" | "가성비" | "구독 포함" | "통화 많이">
-  benefits: string[]
-}
-
 type Application = {
   number: string
   plan: Plan
@@ -35,57 +23,6 @@ type Application = {
   phone: string
   appliedAt: string
 }
-
-export const plans: Plan[] = [
-  {
-    id: "unlimited",
-    name: "넉넉 무제한",
-    price: 85000,
-    originalPrice: 100000,
-    discount: "15%",
-    data: "무제한",
-    description: "영상·게임을 하루 종일 해도 걱정 없어요",
-    badge: "추천",
-    promo: "24개월 할인 프로모션",
-    categories: ["데이터 많이", "구독 포함", "통화 많이"],
-    benefits: ["넷플릭스 스탠다드", "유튜브 프리미엄"],
-  },
-  {
-    id: "standard",
-    name: "스탠다드 110",
-    price: 69000,
-    originalPrice: 78000,
-    discount: "12%",
-    data: "110GB",
-    description: "데이터 110GB · 통화 무제한",
-    badge: "추천",
-    promo: "24개월 할인 프로모션",
-    categories: ["데이터 많이", "가성비", "통화 많이"],
-    benefits: ["데이터 소진 후 5Mbps", "테더링 40GB"],
-  },
-  {
-    id: "light",
-    name: "라이트 30",
-    price: 49000,
-    data: "30GB",
-    description: "데이터 30GB · 통화 무제한",
-    badge: "추천",
-    categories: ["데이터 많이", "가성비", "통화 많이"],
-    benefits: ["데이터 소진 후 1Mbps", "테더링 10GB"],
-  },
-  {
-    id: "slim",
-    name: "슬림 10",
-    price: 39000,
-    originalPrice: 43000,
-    discount: "10%",
-    data: "10GB",
-    description: "데이터 10GB · 통화 무제한",
-    badge: "추천",
-    categories: ["데이터 많이", "가성비", "통화 많이"],
-    benefits: ["데이터 소진 후 1Mbps", "U+zone 무료"],
-  },
-]
 
 const filters = ["데이터 많이", "가성비", "구독 포함", "통화 많이"] as const
 
@@ -364,8 +301,12 @@ export function ApplyScreen({
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [agreed, setAgreed] = useState(false)
+  const [pending, setPending] = useState(false)
+  const [error, setError] = useState("")
+  const submitting = useRef(false)
+  const lastRequest = useRef<{payload:string; id:string}|null>(null)
   const valid =
-    name.trim().length > 1 && phone.replace(/\D/g, "").length >= 10 && agreed
+    name.trim().length > 1 && name.trim().length <= 100 && phone.replace(/\D/g, "").length >= 10 && agreed
 
   function handlePhone(value: string) {
     const digits = value.replace(/\D/g, "").slice(0, 11)
@@ -378,24 +319,38 @@ export function ApplyScreen({
     setPhone(formatted)
   }
 
-  function submit(event: FormEvent) {
+  async function submit(event: FormEvent) {
     event.preventDefault()
-    if (!valid) return
-    const now = new Date()
-    onComplete({
-      number: `UP${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-01`,
-      plan,
-      name: name.trim(),
-      phone,
-      appliedAt: new Intl.DateTimeFormat("ko-KR", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }).format(now),
-    })
+    if (!valid || submitting.current) return
+    submitting.current = true
+    setPending(true)
+    setError("")
+    const submittedName = name.trim()
+    const submittedPhone = phone
+    const payload=JSON.stringify({planId:plan.id,name:submittedName,phone:submittedPhone,agreed})
+    if (lastRequest.current?.payload!==payload) lastRequest.current={payload,id:crypto.randomUUID()}
+    const requestId=lastRequest.current!.id
+    try {
+      const response = await fetch("/api/applications", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({requestId,planId: plan.id, name: submittedName, phone: submittedPhone, agreed}),
+      })
+      if (!response.ok) throw new Error("save_failed")
+      const saved = await response.json()
+      if (typeof saved.number !== "string" || saved.planId !== plan.id || saved.price !== plan.price || saved.planName !== plan.name || !Number.isFinite(Date.parse(saved.createdAt))) throw new Error("invalid_response")
+      onComplete({
+        number: saved.number, plan, name: submittedName, phone: submittedPhone,
+        appliedAt: new Intl.DateTimeFormat("ko-KR", {
+          year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", hour12:false,
+        }).format(new Date(saved.createdAt)),
+      })
+    } catch {
+      setError("신청 정보를 저장하지 못했어요. 잠시 후 다시 시도해주세요.")
+    } finally {
+      submitting.current = false
+      setPending(false)
+    }
   }
 
   return (
@@ -404,7 +359,7 @@ export function ApplyScreen({
         title="구독 신청"
         onBack={() => navigate({ name: "detail", planId: plan.id })}
       />
-      <form className="application-form" onSubmit={submit}>
+      <form className="application-form" onSubmit={submit} aria-busy={pending}>
         <div className="scroll-content screen-with-cta">
           <section className="title-group title-only">
             <h1>
@@ -421,6 +376,8 @@ export function ApplyScreen({
             <label className="field">
               <span>이름</span>
               <input
+                disabled={pending}
+                maxLength={100}
                 value={name}
                 onChange={(event) =>
                   setName(
@@ -438,6 +395,7 @@ export function ApplyScreen({
             <label className="field">
               <span>휴대폰 번호</span>
               <input
+                disabled={pending}
                 value={phone}
                 onChange={(event) => handlePhone(event.target.value)}
                 placeholder="010-0000-0000"
@@ -447,17 +405,19 @@ export function ApplyScreen({
             </label>
             <label className="agreement">
               <input
+                disabled={pending}
                 type="checkbox"
                 checked={agreed}
                 onChange={(event) => setAgreed(event.target.checked)}
               />
               <span>[필수] 개인정보 수집·이용에 동의합니다</span>
             </label>
+            {error && <p className="submission-error" role="alert">{error}</p>}
           </div>
         </div>
         <BottomCta>
-          <Button type="submit" disabled={!valid}>
-            신청하기
+          <Button type="submit" disabled={!valid || pending}>
+            {pending ? "저장 중…" : "신청하기"}
           </Button>
         </BottomCta>
       </form>
@@ -513,6 +473,14 @@ export function CompleteScreen({
 }
 
 
+export function EmptyCompleteScreen() {
+ return <main data-screen="complete" className="screen">
+  <Header title="신청 완료" onBack={()=>window.history.back()}/>
+  <div className="scroll-content screen-with-cta complete-content"><section className="complete-result"><h1>신청 내역이 없습니다</h1><p>요금제를 선택하고 구독을 신청해주세요</p></section></div>
+  <BottomCta><Button onClick={()=>window.location.assign("/plans")}>요금제 더 보기</Button></BottomCta>
+ </main>;
+}
+
 export const SCREENS = [{id:"plans",route:"/plans"},{id:"detail",route:"/plans/:id"},{id:"apply",route:"/apply"},{id:"complete",route:"/complete"}];
 declare global { interface Window { __HARNESS_ROUTES__: typeof SCREENS } }
 function pathFor(route: Route) {
@@ -534,6 +502,6 @@ export function RoutedScreen({screen,planId}:{screen:"plans"|"detail"|"apply"|"c
  if(screen==="plans") return <PlansScreen navigate={navigate}/>;
  if(screen==="detail") return <DetailScreen plan={plan} navigate={navigate}/>;
  if(screen==="apply") return <ApplyScreen plan={plan} navigate={navigate} onComplete={application=>{context.setApplication(application);navigate({name:"complete"});}}/>;
- const application=context.application??{number:"UP20250616-01",plan:plans[0],name:"신청자",phone:"010-0000-0000",appliedAt:"2025. 06. 16. 14:30"};
- return <CompleteScreen application={application}/>;
+ if (!context.application) return <EmptyCompleteScreen/>;
+ return <CompleteScreen application={context.application}/>;
 }
