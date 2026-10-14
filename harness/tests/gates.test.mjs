@@ -92,6 +92,10 @@ test('공식 로컬폰트 생성 및 staging된 폰트 변조를 검사한다',(
   assert.match(canonicalTokenCss(root),/@font-face/);assert.deepEqual(inspectStyles(root),[]);
   git(root,['init','-b','main']);git(root,['add','--','docs','reference','harness','app']);
   git(root,['-c','user.name=Harness Test','-c','user.email=harness@example.invalid','commit','-m','fixture']);
+  const manifest=path.join(root,'harness/approved-assets.json');
+  fs.writeFileSync(manifest,fs.readFileSync(manifest,'utf8').replaceAll('\r\n','\n').replaceAll('\n','\r\n'));
+  put(root,'app/src/style.css','.screen { display:flex; }');git(root,['add','--','app/src/style.css']);
+  assert.deepEqual(inspectCommit(root),[]);
   put(root,asset.path,'wOF2corrupt');git(root,['add','--',asset.path]);
   // Restore working bytes: the index must still be inspected rather than the valid working font.
   put(root,asset.path,fs.readFileSync(path.join(DEFAULT_ROOT,asset.path)));

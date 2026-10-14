@@ -31,7 +31,9 @@ export function inspectCommit(root) {
     const manifest='harness/approved-assets.json';
     if(fs.existsSync(path.join(root,manifest))) {
       const data=git(root,['show',':'+manifest],null);
-      assert(hash(data)===hash(fs.readFileSync(path.join(root,manifest))),'승인 자산 manifest의 index·작업폴더 불일치');
+      // Git autocrlf changes text newlines, not approval data. Binary assets remain SHA-checked unchanged.
+      const normalized=b=>b.toString('utf8').replaceAll('\r\n','\n');
+      assert(normalized(data)===normalized(fs.readFileSync(path.join(root,manifest))),'승인 자산 manifest의 index·작업폴더 불일치');
       fs.writeFileSync(path.join(temp,manifest),data);
     }
     const paths=git(root,['ls-files','--cached','-z','--','app/']).split('\0').filter(Boolean);
